@@ -2,34 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Company Brochure QR Code</title>
+    <title>Company Brochure Preview</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body { text-align: center; font-family: Arial, sans-serif; }
         #qrcode { margin: 20px auto; }
         .tip { margin-top: 20px; }
-        a { color: #007bff; }
+        iframe { width: 90vw; height: 80vh; border: none; }
     </style>
 </head>
 <body>
     <h2>Scan to view our company brochure</h2>
     <div id="qrcode"></div>
     <div class="tip">
-        <p>You can also <a id="pdfLink" href="#" target="_blank">click here to view the brochure</a>.</p>
+        <p>You can also <a id="pdfLink" href="brochure.pdf" target="_blank">click here to view the brochure</a>.</p>
     </div>
-    <!-- 引入 qrcode.js 库 -->
+    <iframe src="brochure.pdf"></iframe>
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script>
-        // PDF 文件的在线地址（请替换为你的 PDF 链接）
-        var pdfUrl = "https://gv-sama.github.io/YiAnInfo/brochure.pdf";
-        // 生成二维码
+        // 二维码内容改为 HTML 页面地址
+        var pageUrl = window.location.href;
         new QRCode(document.getElementById("qrcode"), {
-            text: pdfUrl,
+            text: pageUrl,
             width: 200,
             height: 200
         });
-        // 设置链接
-        document.getElementById("pdfLink").href = pdfUrl;
     </script>
 </body>
 </html>
