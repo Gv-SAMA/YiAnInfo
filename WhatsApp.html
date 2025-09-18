@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp企业联系二维码生成器</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        header {
+            background: #128C7E;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .preview-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #128C7E;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            border-color: #25D366;
+            outline: none;
+        }
+        
+        button {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        
+        button:hover {
+            background: #128C7E;
+        }
+        
+        .qr-code {
+            width: 220px;
+            height: 220px;
+            border: 15px solid white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            background: white;
+        }
+        
+        .instructions {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 5px solid #25D366;
+        }
+        
+        .instructions h3 {
+            color: #128C7E;
+            margin-bottom: 15px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .whatsapp-icon {
+            font-size: 40px;
+            color: #25D366;
+            margin-bottom: 15px;
+        }
+        
+        .company-info {
+            text-align: center;
+            margin-top: 15px;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .company-info h3 {
+            color: #128C7E;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fab fa-whatsapp"></i> WhatsApp企业联系二维码生成器</h1>
+            <p>创建您的企业WhatsApp联系二维码，让客户轻松与您沟通</p>
+        </header>
+        
+        <div class="content">
+            <div class="form-section">
+                <h2>填写企业信息</h2>
+                <div class="form-group">
+                    <label for="companyName">企业名称</label>
+                    <input type="text" id="companyName" placeholder="输入企业名称">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phoneNumber">WhatsApp号码</label>
+                    <input type="text" id="phoneNumber" placeholder="包括国家代码，例如: 8613912345678">
+                </div>
+                
+                <div class="form-group">
+                    <label for="welcomeMessage">预设欢迎消息</label>
+                    <textarea id="welcomeMessage" rows="3" placeholder="输入用户扫码后默认发送的消息">您好，我对贵公司的产品/服务感兴趣，希望了解更多信息。</textarea>
+                </div>
+                
+                <button id="generateBtn">生成二维码</button>
+                
+                <div class="instructions">
+                    <h3>使用说明</h3>
+                    <ol>
+                        <li>填写您的企业信息和WhatsApp号码</li>
+                        <li>点击"生成二维码"按钮</li>
+                        <li>使用WhatsApp扫描二维码测试功能</li>
+                        <li>下载或分享生成的企业联系二维码</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <div class="whatsapp-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div id="qrcode" class="qr-code"></div>
+                <p>扫描二维码直接通过WhatsApp联系我们</p>
+                
+                <div class="company-info">
+                    <h3 id="previewCompany">企业名称预览</h3>
+                    <p id="previewPhone">电话: +86 139 1234 5678</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 WhatsApp企业联系二维码生成器 | 让商业沟通更简单</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateBtn = document.getElementById('generateBtn');
+            const companyNameInput = document.getElementById('companyName');
+            const phoneNumberInput = document.getElementById('phoneNumber');
+            const welcomeMessageInput = document.getElementById('welcomeMessage');
+            const previewCompany = document.getElementById('previewCompany');
+            const previewPhone = document.getElementById('previewPhone');
+            const qrcodeDiv = document.getElementById('qrcode');
+            
+            // 初始示例二维码
+            generateQRCode("https://wa.me/8613912345678?text=您好，我对贵公司的产品/服务感兴趣，希望了解更多信息。");
+            
+            // 更新预览信息
+            companyNameInput.addEventListener('input', updatePreview);
+            phoneNumberInput.addEventListener('input', updatePreview);
+            
+            function updatePreview() {
+                previewCompany.textContent = companyNameInput.value || "企业名称预览";
+                previewPhone.textContent = "电话: " + (phoneNumberInput.value || "+86 139 1234 5678");
+            }
+            
+            generateBtn.addEventListener('click', function() {
+                const companyName = companyNameInput.value;
+                let phoneNumber = phoneNumberInput.value;
+                const welcomeMessage = encodeURIComponent(welcomeMessageInput.value);
+                
+                if (!companyName) {
+                    alert("请输入企业名称");
+                    return;
+                }
+                
+                if (!phoneNumber) {
+                    alert("请输入WhatsApp号码");
+                    return;
+                }
+                
+                // 清理电话号码格式
+                phoneNumber = phoneNumber.replace(/\D/g, '');
+                
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${welcomeMessage}`;
+                
+                // 更新预览
+                updatePreview();
+                
+                // 生成二维码
+                generateQRCode(whatsappUrl);
+            });
+            
+            function generateQRCode(url) {
+                // 清除现有二维码
+                qrcodeDiv.innerHTML = '';
+                
+                // 使用QRCode.js生成二维码
+                QRCode.toCanvas(url, { 
+                    width: 200,
+                    height: 200,
+                    margin: 1,
+                    color: {
+                        dark: '#128C7E',
+                        light: '#ffffff'
+                    }
+                }, function(err, canvas) {
+                    if (err) {
+                        console.error(err);
+                        alert('生成二维码时出错，请重试');
+                        return;
+                    }
+                    
+                    qrcodeDiv.appendChild(canvas);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
