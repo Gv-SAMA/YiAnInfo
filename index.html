@@ -8,19 +8,20 @@
         body { text-align: center; font-family: Arial, sans-serif; }
         #qrcode { margin: 20px auto; }
         .tip { margin-top: 20px; }
-        iframe { width: 90vw; height: 80vh; border: none; }
+        iframe, embed { width: 90vw; height: 80vh; border: none; }
     </style>
 </head>
 <body>
     <h2>Scan to view our company brochure</h2>
     <div id="qrcode"></div>
     <div class="tip">
-        <p>You can also <a id="pdfLink" href="brochure.pdf" target="_blank">click here to view the brochure</a>.</p>
+        <p>Save this QR code for permanent access.</p>
     </div>
+    <!-- PDF 预览区，推荐使用 iframe -->
     <iframe src="brochure.pdf"></iframe>
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script>
-        // 二维码内容改为 HTML 页面地址
+        // 二维码内容为 HTML 页面地址
         var pageUrl = window.location.href;
         new QRCode(document.getElementById("qrcode"), {
             text: pageUrl,
